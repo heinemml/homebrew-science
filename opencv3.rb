@@ -1,7 +1,7 @@
 class Opencv3 < Formula
   desc "Open source computer vision library, version 3"
   homepage "http://opencv.org/"
-  revision 1
+  revision 2
 
   stable do
     url "https://github.com/Itseez/opencv/archive/3.1.0.tar.gz"
@@ -11,6 +11,10 @@ class Opencv3 < Formula
       url "https://github.com/Itseez/opencv_contrib/archive/3.1.0.tar.gz"
       sha256 "ef2084bcd4c3812eb53c21fa81477d800e8ce8075b68d9dedec90fef395156e5"
     end
+    # patch fixing crash after 100s when using capturing device https://github.com/Itseez/opencv/issues/5874
+    # fixed in https://github.com/Itseez/opencv/commit/a2bda999211e8be9fbc5d40038fdfc9399de31fc
+    # this can be removed when a new version is released
+    patch :DATA
   end
 
   head do
@@ -22,9 +26,9 @@ class Opencv3 < Formula
   end
 
   bottle do
-    sha256 "0ef190f2c0656e24b5071d1589e70a6ee31a89d7c7db9edddd244e7ca38939f3" => :el_capitan
-    sha256 "6e6eed77960ca2c2727e80222bcdb0e69f8510777bdf9f97d875ae35b72630e2" => :yosemite
-    sha256 "9e32e65742b692967ef8547a69454e98d1ce84fb078be308f6ba16ed31709eae" => :mavericks
+    sha256 "d5d4a40d1ae6f0f2adc77457bc01670d0bdb5ed5bdd6a4e9df173cc9c7a25c6c" => :el_capitan
+    sha256 "159adaa2de46dc1081f1ff0c5cc4ec820c6fbdcd0a1040a5b2f875b05d793bc3" => :yosemite
+    sha256 "a67641c72313ee2b8855b50c5dc6b857d17e97e2c4a51559f6f2a396ffa094d0" => :mavericks
   end
 
   keg_only "opencv3 and opencv install many of the same files."
@@ -214,3 +218,31 @@ class Opencv3 < Formula
     assert_match version.to_s, shell_output("python -c 'import cv2; print(cv2.__version__)'")
   end
 end
+
+__END__
+
+patch :DATA
+
+diff --git a/modules/videoio/src/cap_qtkit.mm b/modules/videoio/src/cap_qtkit.mm
+index bdbbd2d..ad6037b 100644
+--- a/modules/videoio/src/cap_qtkit.mm
++++ b/modules/videoio/src/cap_qtkit.mm
+@@ -93,6 +93,8 @@ didDropVideoFrameWithSampleBuffer:(QTSampleBuffer *)sampleBuffer
+ - (int)updateImage;
+ - (IplImage*)getOutput;
+
++- (void)doFireTimer:(NSTimer *)timer;
++
+ @end
+
+ /*****************************************************************************
+@@ -622,6 +624,11 @@ didDropVideoFrameWithSampleBuffer:(QTSampleBuffer *)sampleBuffer
+     return 1;
+ }
+
++- (void)doFireTimer:(NSTimer *)timer {
++    (void)timer;
++    // dummy
++}
++
+ @end

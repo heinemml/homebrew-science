@@ -7,14 +7,15 @@ end
 class R < Formula
   desc "Software environment for statistical computing"
   homepage "http://www.r-project.org/"
-  url "http://cran.rstudio.com/src/base/R-3/R-3.2.4.tar.gz"
-  mirror "http://cran.r-project.org/src/base/R-3/R-3.2.4.tar.gz"
-  sha256 "bafd405fe9c2fe3bbe47a8a7730ad120f03b7df9fb0f61674fca19cf061dd350"
+  url "http://cran.rstudio.com/src/base/R-3/R-3.2.4-revised.tar.gz"
+  mirror "http://cran.r-project.org/src/base/R-3/R-3.2.4-revised.tar.gz"
+  sha256 "d484844d519951b68e4462dd902cba1d25a27d89a7d8bcfb4652635f1c1ab43f"
+  revision 1
 
   bottle do
-    sha256 "0484b5452091bf6d102e5abdf6f464b8a6892dddc56d9fe048cadc673f9dec76" => :el_capitan
-    sha256 "4b4f4cb062c27940486a3e413524328de2e9e7ae01cb7f94ca8703f09f102ecf" => :yosemite
-    sha256 "222979bfa47125453dc17f7428308a2364ae8901ee1a2ac162dc7e5d036cc310" => :mavericks
+    sha256 "2b60715e80ce6a9208741391d0ea8c35382a8e468d0a5d1656120d0be9651ad8" => :el_capitan
+    sha256 "904456a3c2c93d200bca10ee387920a9e626a89a13586ebd2e066c19cc911993" => :yosemite
+    sha256 "7f41a9c5a105f3126323cadfe3efe7e6eb422dee39a0614a37323a9dfbd3c86c" => :mavericks
   end
 
   head do
