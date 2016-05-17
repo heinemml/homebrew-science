@@ -1,7 +1,7 @@
 class Opencv3 < Formula
   desc "Open source computer vision library, version 3"
   homepage "http://opencv.org/"
-  revision 2
+  revision 3
 
   stable do
     url "https://github.com/Itseez/opencv/archive/3.1.0.tar.gz"
@@ -11,10 +11,27 @@ class Opencv3 < Formula
       url "https://github.com/Itseez/opencv_contrib/archive/3.1.0.tar.gz"
       sha256 "ef2084bcd4c3812eb53c21fa81477d800e8ce8075b68d9dedec90fef395156e5"
     end
-    # patch fixing crash after 100s when using capturing device https://github.com/Itseez/opencv/issues/5874
-    # fixed in https://github.com/Itseez/opencv/commit/a2bda999211e8be9fbc5d40038fdfc9399de31fc
-    # this can be removed when a new version is released
-    patch :DATA
+
+    patch do
+      # patch fixing crash after 100s when using capturing device https://github.com/Itseez/opencv/issues/5874
+      # can be removed with next release
+      url "https://github.com/Itseez/opencv/commit/a2bda999211e8be9fbc5d40038fdfc9399de31fc.diff"
+      sha256 "c1f83ec305337744455c2b09c83624a7a3710cfddef2f398bb4ac20ea16197e2"
+    end
+
+    patch do
+      # patch fixes build error https://github.com/Homebrew/homebrew-science/issues/3147 when not using --without-opencl
+      # can be removed with next release
+      url "https://github.com/Itseez/opencv/commit/c7bdbef5042dadfe032dfb5d80f9b90bec830371.diff"
+      sha256 "106785f8478451575026e9bf3033e418d8509ffb93e62722701fa017dc043d91"
+    end
+  end
+
+  bottle do
+    revision 2
+    sha256 "1b2e9b653936ec3acaad8be12a0de4fe299bbd5c0358ec148cc950fa5871d0f1" => :el_capitan
+    sha256 "c83ef032b8ef9f0729c4862c21786dc318da40e9b57015c4a7732255259a87e3" => :yosemite
+    sha256 "1566a5ea4564fe06993890010affb4ccec2914e5dd667fbc2c8104585a449bdc" => :mavericks
   end
 
   head do
@@ -25,13 +42,9 @@ class Opencv3 < Formula
     end
   end
 
-  bottle do
-    sha256 "d5d4a40d1ae6f0f2adc77457bc01670d0bdb5ed5bdd6a4e9df173cc9c7a25c6c" => :el_capitan
-    sha256 "159adaa2de46dc1081f1ff0c5cc4ec820c6fbdcd0a1040a5b2f875b05d793bc3" => :yosemite
-    sha256 "a67641c72313ee2b8855b50c5dc6b857d17e97e2c4a51559f6f2a396ffa094d0" => :mavericks
-  end
-
   keg_only "opencv3 and opencv install many of the same files."
+
+  deprecated_option "without-tests" => "without-test"
 
   option "32-bit"
   option "with-contrib", 'Build "extra" contributed modules'
@@ -41,11 +54,12 @@ class Opencv3 < Formula
   option "with-quicktime", "Use QuickTime for Video I/O instead of QTKit"
   option "with-qt", "Build the Qt4 backend to HighGUI"
   option "with-qt5", "Build the Qt5 backend to HighGUI"
+  option "with-static", "Build static libraries"
   option "with-tbb", "Enable parallel code in OpenCV using Intel TBB"
   option "without-numpy", "Use a numpy you've installed yourself instead of a Homebrew-packaged numpy"
   option "without-opencl", "Disable GPU code in OpenCV using OpenCL"
   option "without-python", "Build without Python support"
-  option "without-tests", "Build without accuracy & performance tests"
+  option "without-test", "Build without accuracy & performance tests"
 
   option :cxx11
 
@@ -82,13 +96,13 @@ class Opencv3 < Formula
   cxxstdlib_check :skip
 
   resource "icv-macosx" do
-    url "https://downloads.sourceforge.net/project/opencvlibrary/3rdparty/ippicv/ippicv_macosx_20141027.tgz", :using => :nounzip
-    sha256 "07e9ae595154f1616c6c3e33af38695e2f1b0c99c925b8bd3618aadf00cd24cb"
+    url "https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_macosx_20151201.tgz", :using => :nounzip
+    sha256 "8a067e3e026195ea3ee5cda836f25231abb95b82b7aa25f0d585dc27b06c3630"
   end
 
   resource "icv-linux" do
-    url "https://downloads.sourceforge.net/project/opencvlibrary/3rdparty/ippicv/ippicv_linux_20141027.tgz", :using => :nounzip
-    sha256 "a5669b0e3b500ee813c18effe1de2477ef44af59422cf7f8862a360f3f821d80"
+    url "https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_linux_20151201.tgz", :using => :nounzip
+    sha256 "4333833e40afaa22c804169e44f9a63e357e21476b765a5683bcb3760107f0da"
   end
 
   def arg_switch(opt)
@@ -155,7 +169,7 @@ class Opencv3 < Formula
       # Set proper path for Homebrew's openni
       inreplace "cmake/OpenCVFindOpenNI.cmake" do |s|
         s.gsub! "/usr/include/ni", "#{Formula["openni"].opt_include}/ni"
-        s.gsub! "/usr/lib", "#{Formula["openni"].opt_lib}"
+        s.gsub! "/usr/lib", Formula["openni"].opt_lib
       end
     end
 
@@ -180,6 +194,8 @@ class Opencv3 < Formula
       args << "-DPYTHON3_LIBRARY=#{py3_config}/libpython#{py3_version}.#{dylib}"
       args << "-DPYTHON3_INCLUDE_DIR=#{py3_include}"
     end
+
+    args << "-DBUILD_SHARED_LIBS=OFF" if build.with?("static")
 
     if ENV.compiler == :clang && !build.bottle?
       args << "-DENABLE_SSSE3=ON" if Hardware::CPU.ssse3?
@@ -218,31 +234,3 @@ class Opencv3 < Formula
     assert_match version.to_s, shell_output("python -c 'import cv2; print(cv2.__version__)'")
   end
 end
-
-__END__
-
-patch :DATA
-
-diff --git a/modules/videoio/src/cap_qtkit.mm b/modules/videoio/src/cap_qtkit.mm
-index bdbbd2d..ad6037b 100644
---- a/modules/videoio/src/cap_qtkit.mm
-+++ b/modules/videoio/src/cap_qtkit.mm
-@@ -93,6 +93,8 @@ didDropVideoFrameWithSampleBuffer:(QTSampleBuffer *)sampleBuffer
- - (int)updateImage;
- - (IplImage*)getOutput;
-
-+- (void)doFireTimer:(NSTimer *)timer;
-+
- @end
-
- /*****************************************************************************
-@@ -622,6 +624,11 @@ didDropVideoFrameWithSampleBuffer:(QTSampleBuffer *)sampleBuffer
-     return 1;
- }
-
-+- (void)doFireTimer:(NSTimer *)timer {
-+    (void)timer;
-+    // dummy
-+}
-+
- @end

@@ -1,15 +1,17 @@
 class Paml < Formula
+  desc "phylogenetic analysis by maximum likelihood"
   homepage "http://abacus.gene.ucl.ac.uk/software/paml.html"
-  url "http://abacus.gene.ucl.ac.uk/software/paml4.8a.tgz"
-  sha256 "e45f37e1cfc1c24de276266a7bc2926fc12eac9602c56c1c025bc8f6dfb737f3"
-  version "4.8a"
+  url "http://abacus.gene.ucl.ac.uk/software/paml4.9a.tgz"
+  version "4.9a"
+  sha256 "1400b6a48aa7ba2dee637352430a1f64594674168cf7a749ac79093da9a39ef4"
+  # doi "10.1093/molbev/msm088"
+  # tag "bioinformatics"
 
   bottle do
-    cellar :any
-    revision 2
-    sha256 "37becefadba2dcd90bf6f9bdc7c100d5558e795cd3eb8d038c33bdf6bce366f9" => :yosemite
-    sha256 "040cf5f030bf1b27b3ee20d0f2f1118e8bbfb54bdeb005296a0754b08f622ba8" => :mavericks
-    sha256 "6ff2fb523b30c68704442cad420827dcb2035402cfcc36fae80f33347e605946" => :mountain_lion
+    cellar :any_skip_relocation
+    sha256 "c5b4ef918aa14cea7ec3229e3ea6fd1c2532d0e54942e6dcbb848a383af8484b" => :el_capitan
+    sha256 "a4fadee3d6a50cc7f397dffc9df49bea091c3c5d2ced50166213d788a3551a1e" => :yosemite
+    sha256 "8940747b21e50aa40549583a5e2490b5060268506a21d296f66f157ecf2d2b60" => :mavericks
   end
 
   def install

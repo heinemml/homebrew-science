@@ -1,15 +1,17 @@
 class Vips < Formula
+  desc "Image processing library"
   homepage "http://www.vips.ecs.soton.ac.uk/"
-  url "http://www.vips.ecs.soton.ac.uk/supported/8.2/vips-8.2.2.tar.gz"
-  sha256 "0f688a34e99714ff0901cba8cdf93ec9878447e33dea122f4b226416550a6389"
+  url "http://www.vips.ecs.soton.ac.uk/supported/8.3/vips-8.3.1.tar.gz"
+  sha256 "09cb7f8d5640c7693bae07080202de0cead60c668e086f2739248bacd40a1006"
 
   bottle do
-    sha256 "27f3767c5faec611d09350fd94ab645dbd08e5023b2fa99cf6452eb207271392" => :el_capitan
-    sha256 "26ffee29d527ec276119a9514f3279c254ea58ff72c00128c6bc7cde0bf28b43" => :yosemite
-    sha256 "b61fa5e4217cd376ae064d6c73b9255aa607ab180d43c74309c2f53b2a69d8d6" => :mavericks
+    sha256 "7f7f80c38e844389d45aea55d354ebbbf5ef5efdefa64b5a00c5afe782215d7d" => :el_capitan
+    sha256 "2829062d07d8ed719e11fd37f7af7fa93f934de720d1e123006cba8644afe643" => :yosemite
+    sha256 "5f176b75622b919f4af58403983f76e1a638ced19d41db6ee05fb6afbe5108ed" => :mavericks
   end
 
-  option "without-check", "Disable build time checks (not recommended)"
+  option "without-test", "Disable build time checks (not recommended)"
+  deprecated_option "without-check" => "without-test"
 
   depends_on "pkg-config" => :build
   depends_on "fontconfig"
@@ -28,6 +30,9 @@ class Vips < Formula
   depends_on "gobject-introspection" => :recommended
   depends_on "pygobject3" => :recommended
   depends_on "python" => :recommended
+  depends_on "poppler" => :recommended
+  depends_on "librsvg" => :recommended
+  depends_on "giflib" => :recommended
 
   depends_on "openslide" => :optional
   depends_on "imagemagick" => :optional
@@ -48,11 +53,7 @@ class Vips < Formula
     args.concat %w[--with-magick --with-magickpackage=GraphicsMagick] if build.with? "graphicsmagick"
 
     system "./configure", *args
-    if build.with? "check"
-      # Test scripts fail with non-english decimal separator, see jcupitt/libvips#367
-      ENV["LC_NUMERIC"] = "C"
-      system "make", "check"
-    end
+    system "make", "check" if build.with? "check"
     system "make", "install"
   end
 

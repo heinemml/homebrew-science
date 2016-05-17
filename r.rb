@@ -6,16 +6,19 @@ end
 
 class R < Formula
   desc "Software environment for statistical computing"
-  homepage "http://www.r-project.org/"
-  url "http://cran.rstudio.com/src/base/R-3/R-3.2.4-revised.tar.gz"
-  mirror "http://cran.r-project.org/src/base/R-3/R-3.2.4-revised.tar.gz"
-  sha256 "d484844d519951b68e4462dd902cba1d25a27d89a7d8bcfb4652635f1c1ab43f"
-  revision 1
+  homepage "https://www.r-project.org/"
+  url "https://cran.rstudio.com/src/base/R-3/R-3.3.0.tar.gz"
+  mirror "https://cran.r-project.org/src/base/R-3/R-3.3.0.tar.gz"
+  sha256 "9256b154b1a5993d844bee7b1955cd49c99ad72cef03cce3cd1bdca1310311e4"
+
+  # Do not remove executable permission from these scripts.
+  # See https://github.com/Linuxbrew/linuxbrew/issues/614
+  skip_clean "lib/R/bin" unless OS.mac?
 
   bottle do
-    sha256 "2b60715e80ce6a9208741391d0ea8c35382a8e468d0a5d1656120d0be9651ad8" => :el_capitan
-    sha256 "904456a3c2c93d200bca10ee387920a9e626a89a13586ebd2e066c19cc911993" => :yosemite
-    sha256 "7f41a9c5a105f3126323cadfe3efe7e6eb422dee39a0614a37323a9dfbd3c86c" => :mavericks
+    sha256 "709a51843abbc15cb34c7446989388b9bf3d4069dba46d254cefcde74ced90e7" => :el_capitan
+    sha256 "1ac69cc8b7e1a9bc5a479a0344994014b71de901fc4071cfd920663bbe4c4146" => :yosemite
+    sha256 "c7c15b6c07ecfe07ddbbef047564c8674920fb3b85dd4c355e186fda533514ca" => :mavericks
   end
 
   head do
@@ -24,9 +27,11 @@ class R < Formula
   end
 
   option "without-accelerate", "Build without the Accelerate framework (use Rblas)"
-  option "without-check", "Skip build-time tests (not recommended)"
+  option "without-test", "Skip build-time tests (not recommended)"
   option "without-tcltk", "Build without Tcl/Tk"
   option "with-librmath-only", "Only build standalone libRmath library"
+
+  deprecated_option "without-check" => "without-test"
 
   depends_on "pkg-config" => :build
   depends_on "texinfo" => :build

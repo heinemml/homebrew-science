@@ -1,16 +1,16 @@
 class Canu < Formula
   desc "Single molecule sequence assembler"
   homepage "http://canu.readthedocs.org/en/latest/"
-  url "https://github.com/marbl/canu/archive/v1.0.tar.gz"
-  sha256 "d84f465c1bad900e26346f80038d5ac70cb6af3c4afc8cd5cf18baa790e40134"
+  url "https://github.com/marbl/canu/archive/v1.2.tar.gz"
+  sha256 "d3ad2afd9ca0967cbfa401342ff118b1eb9ed86237507c7d74a4543d1e876abc"
   head "https://github.com/marbl/canu.git"
   # doi "10.1038/nbt.3238"
   # tag "bioinformatics"
 
   bottle do
-    sha256 "8615ae209f5f64e6048322a60112818635c5b772b4e0e1bb57103bcd94bc027c" => :el_capitan
-    sha256 "597617cd2f9575afd87972130e2ddfe33239c683fa7927758eec4ee06eed7d7f" => :yosemite
-    sha256 "2cc1b13d28a308f83b85656d1fbeb4ec14108accb256d365500e2ea2f4796eab" => :mavericks
+    sha256 "d08ddccdf35db8f56ca3fe4ffab9ac2399eccc8a69d132af5da08f051fd0444f" => :el_capitan
+    sha256 "e10a7e2c267357796ef323d658d552137a0696eca387f0cff440f27961e8e921" => :yosemite
+    sha256 "d6457d33343be2b51eba8a42ba984ed7b4fc4b9b6f4995a209cc0f76b790fd18" => :mavericks
   end
 
   # Fix fatal error: 'omp.h' file not found
@@ -26,6 +26,6 @@ class Canu < Formula
   end
 
   test do
-    system "#{bin}/canu"
+    system "#{bin}/canu", "--version"
   end
 end

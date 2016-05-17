@@ -1,12 +1,13 @@
 class Shogun < Formula
+  desc "Large scale machine learning toolbox"
   homepage "http://www.shogun-toolbox.org"
-  url "http://shogun-toolbox.org/archives/shogun/releases/4.0/sources/shogun-4.0.0.tar.bz2"
-  sha256 "ab39d3cc27fc1ddf6128f6e3fc60217e73a843b51c20f5d3ceb69e6565a43695"
+  url "http://shogun-toolbox.org/archives/shogun/releases/4.1/sources/shogun-4.1.0.tar.bz2"
+  sha256 "0eb313a95606edee046768a4577d63f32f7ccce340bed7bf0ff0d69225567185"
 
   bottle do
-    sha256 "6461a6713a96489af53058a979380afb251dad96c8255642b42e7062040217aa" => :yosemite
-    sha256 "750fe0d9f604e80cfaa0b55f8e2e9f063af32a5ef0fc5ffcdbc61daa10c3454e" => :mavericks
-    sha256 "53bcba5b939225b7d852bfe9e5663fed71f9609b9700417e2e01b0c218e42f31" => :mountain_lion
+    sha256 "1c8664a8d548482e328384b29b6897472ee3a7dffa9b87940f71df53d155fdc3" => :el_capitan
+    sha256 "75fc22e23b0a37e6eec05ea1efe16b02558e9a43a31278026927dbe349bdc533" => :yosemite
+    sha256 "65a824e46b8af4f31c318954a1446ea939e4466e34d9d5d25e21624092355f4e" => :mavericks
   end
 
   depends_on "pkg-config" => :build

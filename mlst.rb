@@ -3,14 +3,14 @@ class Mlst < Formula
   homepage "https://github.com/tseemann/mlst"
   # tag "bioinformatics"
 
-  url "https://github.com/tseemann/mlst/archive/2.1.tar.gz"
-  sha256 "7c36b7d0a685aa7830b64b5b1bc51b552f2e64d89814bdd76d8986a63d31b7a2"
+  url "https://github.com/tseemann/mlst/archive/2.4.tar.gz"
+  sha256 "6263e124bbc5f481d94dddaf4906fef05babdd9fe6e8b30de8ffbf9bdb0dfb1d"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "83ec1a322611873ab1af0ed53d742fe941b84306e10e884d47243ea4e5440504" => :el_capitan
-    sha256 "ce53a3b8878e2c5d5529eec4eef56ec3f4299529f98a976377f0b755533cc63b" => :yosemite
-    sha256 "cecf476ef1498f75d9528daed0780f64fab2ca7f0c1ad92cb9c55742fa257b9c" => :mavericks
+    sha256 "0d74d46e7a467d9aafe94a2ae33c05eee7dec985841b99e101fa0c60bc10788c" => :el_capitan
+    sha256 "b36e0c426f6583f5649620a4f0f4d5a6a0dd84f3dd50c3978d09e9e2e33d0207" => :yosemite
+    sha256 "ab387db5c198bc9ed6cea2b3bbcccdda40bdf9dbc8d8f2d18f6947bf0ff7ca67" => :mavericks
   end
 
   depends_on "blast"
@@ -21,10 +21,13 @@ class Mlst < Formula
   depends_on "List::MoreUtils" => :perl
 
   def install
+    # if version is bumped before tag next time, this can be removed.
+    inreplace "bin/mlst", "my $VERSION = \"2.3\"", "my $VERSION = \"2.4\""
     prefix.install Dir["*"]
   end
 
   test do
-    assert_match "senterica", shell_output("mlst --list 2>&1", 0)
+    assert_match version.to_s, shell_output("#{bin}/mlst --version")
+    assert_match "senterica", shell_output("#{bin}/mlst --list 2>&1")
   end
 end

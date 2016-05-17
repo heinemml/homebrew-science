@@ -1,15 +1,15 @@
 class Gap < Formula
   desc "A system for computational discrete algebra"
   homepage "http://www.gap-system.org/"
-  url "http://www.gap-system.org/pub/gap/gap48/tar.bz2/gap4r8p2_2016_02_20-18_51.tar.bz2"
-  version "4.8.2"
-  sha256 "8104f6936b6e6f7f8cf399b87da2ba968b5938f309e0ff94dbe6e02f50496ee5"
+  url "http://www.gap-system.org/pub/gap/gap48/tar.bz2/gap4r8p3_2016_03_19-22_17.tar.bz2"
+  version "4.8.3"
+  sha256 "81d358109d87014eb10d1325c38ee94aa968b2a6365afd1a7411bfdd44f7a454"
 
   bottle do
     cellar :any
-    sha256 "61034dfb4e2e0ea7a7742ad5844ea1652a03269d6b5f9c7421fa5f8caee36d9c" => :el_capitan
-    sha256 "89ca57099235158f60d90c3fdd8c6fa3b3805d11429cfafa14f66afec8fec65c" => :yosemite
-    sha256 "def02768b4d712e86e76e07fe1c02ba089b9f13195e041fa1160b9356b75a325" => :mavericks
+    sha256 "aa2cfacc8fc9b92a2d9e099daec207a400e8d6d01e2b91e245e8a39b9eed9cf7" => :el_capitan
+    sha256 "c5b556ed66c2f2220848fd1f01c1eaf5b6d931a77f4fef3bd44aab993638f971" => :yosemite
+    sha256 "4f665cea57a0d0a3ee744a4b6282a951709600f77f7cca2a9f353b245a899893" => :mavericks
   end
 
   # NOTE:  the archive contains the [GMP library](http://gmplib.org) under
@@ -31,7 +31,7 @@ class Gap < Formula
 
   resource "script_that_builds_included_packages" do
     url INST_PACKAGES_SCRIPT_URL
-    sha256 "8910cde7f5ab5ab46ea238a7712aa34d035cff3267704b6eadf307389294ecb2"
+    sha256 "e4ed35338065597fda67d1edcb29a6372ef1a7b7e612237db2afebd657c5c509"
   end
 
   def install

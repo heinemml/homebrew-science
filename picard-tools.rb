@@ -1,15 +1,16 @@
 class PicardTools < Formula
+  desc "Tools for manipulating HTS data and formats"
   homepage "https://broadinstitute.github.io/picard/"
   # tag "bioinformatics"
 
-  url "https://github.com/broadinstitute/picard/releases/download/2.1.0/picard-tools-2.1.0.zip"
-  sha256 "637464a5cb234d85cfc770a7ba65b4e358e0cc08786019b67567923bc3c574db"
+  url "https://github.com/broadinstitute/picard/releases/download/2.2.4/picard-tools-2.2.4.zip"
+  sha256 "233b16ce282fb4612c32b9d255e5cdf19f10685c5c76cb357fad49fd5d80d5bb"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "900f7c9862a456de3b34ade51f4f657d8a209b9e9b15cb2db72458f4916c5be3" => :el_capitan
-    sha256 "1d3e17a8122d0369882e2b660fe8b3066b2084358423bca34c4a1e5b1731fdd7" => :yosemite
-    sha256 "6a8c1e8e09b4a5881cfad8bd996286c6fc2b3d087163124bd4b5e7f2df48bb3e" => :mavericks
+    sha256 "42fe6b9ed31756fa0c14b5a0a2c52f3ebcf01179ff3a2bea38a50d8907eb1787" => :el_capitan
+    sha256 "0c920b6fcca5b84305c52fe8fc5147c5d4979b3b408f71e27eeb998cff21a0ba" => :yosemite
+    sha256 "38075522e8f8315d79747032e45b2485d5dc082252f6e7b1924813c1856f5e9e" => :mavericks
   end
 
   # head "https://github.com/broadinstitute/picard.git"
