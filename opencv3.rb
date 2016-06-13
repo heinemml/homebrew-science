@@ -32,6 +32,20 @@ class Opencv3 < Formula
       url "https://github.com/Itseez/opencv/commit/cdb9c60dcb65e04e7c0bd6bef9b86841191c785a.diff"
       sha256 "a14499a8c16545cf1bb206cfe0ed8a65697100dca9b2ae5274516d1213a1a32b"
     end
+
+    patch do
+      # fixes CMake error detecting VTK.
+      # can be removed with next release
+      url "https://github.com/Itseez/opencv/commit/64a57f7c387f201094076120bfecf59719a95aea.diff"
+      sha256 "2131255e84b6f5db1786b0bf3d13d737ee741a555f07b8fa1def92853823a1ca"
+    end
+
+    patch do
+      # fixes compile error when building with VTK
+      # can be removed with next release
+      url "https://github.com/Itseez/opencv/commit/372890f1d7e4d6fbfbeda4c1f163c54e0c586eba.diff"
+      sha256 "f92b24f01c69ddea5555d4edf64544b5dd62fc9d5ff36f9e15b745cdbb111f70"
+    end
   end
 
   bottle do
