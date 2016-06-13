@@ -1,9 +1,19 @@
 class Opencv < Formula
   desc "Open source computer vision library"
   homepage "http://opencv.org/"
-  url "https://github.com/Itseez/opencv/archive/2.4.13.tar.gz"
-  sha256 "94ebcca61c30034d5fb16feab8ec12c8a868f5162d20a9f0396f0f5f6d8bbbff"
   head "https://github.com/Itseez/opencv.git", :branch => "2.4"
+
+  stable do
+    url "https://github.com/Itseez/opencv/archive/2.4.13.tar.gz"
+    sha256 "94ebcca61c30034d5fb16feab8ec12c8a868f5162d20a9f0396f0f5f6d8bbbff"
+
+    patch do
+      # fixes compile error when building with VTK
+      # check at next release. Currently only fixed for master branch and not ported to 2.4
+      url "https://github.com/Itseez/opencv/commit/372890f1d7e4d6fbfbeda4c1f163c54e0c586eba.diff"
+      sha256 "f92b24f01c69ddea5555d4edf64544b5dd62fc9d5ff36f9e15b745cdbb111f70"
+    end
+  end
 
   bottle do
     revision 1
